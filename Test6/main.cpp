@@ -1,24 +1,19 @@
-#include "stdio.h"
-#include "iostream"
 #include <math.h>
 #include "vector"
+#include <iostream>
 
 using namespace std;
 
-struct ImaginarieNumbers
-{
-    float *re;
-    float *im;
-    /* data */
-};
 
-vector<float> mymodule(ImaginarieNumbers numbers, int n)
+vector<float> re, im;
+
+vector<float> mymodule(int n)
 {
     vector<float> modules_return;
     for (int i = 0; i < n; i++)
     {
-        float real = numbers.re[i];
-        float imag = numbers.im[i];
+        float real = re[i];
+        float imag = im[i];
         float abs = sqrt(real * real + imag * imag);
         modules_return.push_back(abs);
     }
@@ -26,8 +21,11 @@ vector<float> mymodule(ImaginarieNumbers numbers, int n)
 }
 
 // Function to calculate the DFT
-ImaginarieNumbers calculateDFT(int len, int xn[])
+void calculateDFT(int len, int xn[])
 {
+    im.clear();
+    re.clear();    
+
     float Xr[len];
     float Xi[len];
     int i, k, n = 0;
@@ -44,30 +42,38 @@ ImaginarieNumbers calculateDFT(int len, int xn[])
             Xi[k] = (Xi[k] + xn[n] * sin(2 * 3.141592 * k * n / N));
         }
     }
-    ImaginarieNumbers ret;
-    ret.im = Xi;
-    ret.re = Xr;
-    return ret;
+
+    for(int i = 0; i < N; ++i) {
+	im.push_back(Xi[i]);
+	re.push_back(Xr[i]);
+    }
+
 }
 
 // n is the length of the bit string  secuence is de random secuences of ceros and ones
 float DiscreteFourierTransform(int n, int secuence[])
 {
 
-    int d = 0;
     int X[n]; // transform de secuence in ceros and ones
 
     for (int i = 0; i < n; i++)
         X[i] = 2 * secuence[i] - 1;
 
-    ImaginarieNumbers S = calculateDFT(n, X);
+    calculateDFT(n, X);
     for (int i = 0; i < n; i++)
     {
-        cout << S.re[i] << '\n';
-        cout << S.im[i] << '\n';
+        cout << re[i] << '\n';
+        cout << im[i] << '\n';
     }
 
-    vector<float> modules = mymodule(S, (int)(n / 2));
+    vector<float> modules = mymodule((int)(n / 2));
+
+    
+    for (int i = 0; i < n; i++)
+    {
+        cout << modules[i] << '\n';
+    }
+
 
     float T = sqrt(log(1 / 0.05) * n);
 
@@ -85,10 +91,6 @@ float DiscreteFourierTransform(int n, int secuence[])
     float p_value = erfc(abs(d) / sqrt(2));
 
     return p_value;
-    // for (int i = 0; i < (int)(n / 2); i++)
-    // {
-    //     cout << modules[i] << '\n';
-    // }
 }
 
 // Driver Code
