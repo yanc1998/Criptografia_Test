@@ -105,8 +105,8 @@ float nonOverlappingTemplateMatching(int m, int n, int sequence[], int B[], int 
 
     float Pvalue = (float)(*gammaFunction(N / 2, (double)(X2 / 2)));
 
-    printTable(table);
-    printTable(vector<vector<int> >(1, Wi));
+    //printTable(table);
+    //printTable(vector<vector<int> >(1, Wi));
 
     return Pvalue;
 }
@@ -116,9 +116,9 @@ int main()
 {
     int seq[20] = {1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0};
     int B[3] = {0, 0, 1};
-    float Pvalue = nonOverlappingTemplateMatching(3, 20, seq, B, 2, 10);
+    float p_value = nonOverlappingTemplateMatching(3, 20, seq, B, 2, 10);
     
-    cout << Pvalue << endl;
+    cout << "p_value: " << p_value << endl;
     
     return 0;
 }
