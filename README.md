@@ -3,6 +3,7 @@
 - José Carlos Hernández Piñera  C511
 - Yan Carlos González Blanco     C511
 - Henry Estévez Gómez               C511
+- Aldo Verdecia                      C512
 
 
 
